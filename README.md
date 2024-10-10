@@ -2,7 +2,7 @@
 
 **Descrição:**
 
-Este projeto é uma implementação do **Jogo da Forca**, desenvolvido para a disciplina de **Laboratório de Programação Orientada a Objetos**, sob a orientação do professor **Mark Douglas Jacyntho**.
+Este projeto é uma implementação do **Jogo da Forca**, desenvolvido para a disciplina de **Laboratório de Orientação a Objetos**, sob a orientação do professor **Mark Douglas Jacyntho**.
 
 ## Funcionalidades:
 - **Jogo interativo**: O jogador tenta acertar as letras de palavras escondidas, enfrentando o desafio de não deixar o boneco ir para a forca.
