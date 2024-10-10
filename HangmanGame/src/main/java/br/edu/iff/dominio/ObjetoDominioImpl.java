@@ -14,7 +14,7 @@ public abstract class ObjetoDominioImpl implements ObjetoDominio {
      * 
      * @param id o identificador único do objeto de domínio
      */
-    protected ObjetoDominioImpl(long id) {
+    public ObjetoDominioImpl(long id) {
         this.id = id;
     }
 
