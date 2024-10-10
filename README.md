@@ -2,7 +2,7 @@
 
 **Descrição:**
 
-Este projeto é uma implementação do **Jogo da Forca**, desenvolvido para a disciplina de **Laboratório de Programação Orientada a Objetos**, sob a orientação do professor **Mark Douglas Jacyntho**. O trabalho corresponde à atividade A2, valendo 10,0 pontos, sendo 5,0 para o desenvolvimento em grupo (máximo de 4 alunos) e 5,0 para a apresentação e arguição oral (nota individual).
+Este projeto é uma implementação do **Jogo da Forca**, desenvolvido para a disciplina de **Laboratório de Programação Orientada a Objetos**, sob a orientação do professor **Mark Douglas Jacyntho**.
 
 ## Funcionalidades:
 - **Jogo interativo**: O jogador tenta acertar as letras de palavras escondidas, enfrentando o desafio de não deixar o boneco ir para a forca.
