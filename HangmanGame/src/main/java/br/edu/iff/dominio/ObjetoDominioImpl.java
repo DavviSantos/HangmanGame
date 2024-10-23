@@ -7,7 +7,7 @@ package main.java.br.edu.iff.dominio;
 public abstract class ObjetoDominioImpl implements ObjetoDominio {
 
     // Atributo privado para o identificador único do objeto de domínio
-    private long id;
+    private final long id;
 
     /**
      * Construtor da classe ObjetoDominioImpl, que inicializa o ID do objeto.
