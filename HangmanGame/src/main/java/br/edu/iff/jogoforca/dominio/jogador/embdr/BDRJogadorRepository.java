@@ -27,7 +27,7 @@ public class BDRJogadorRepository implements JogadorRepository {
 
     @Override
     public void inserir(Jogador jogador) throws RepositoryException {
-        String sql = "INSERT INTO Jogadores (id, nome, pontuacao) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO Jogador (id, nome, pontuacao) VALUES (?, ?, ?)";
         try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, jogador.getId());
@@ -41,7 +41,7 @@ public class BDRJogadorRepository implements JogadorRepository {
 
     @Override
     public void atualizar(Jogador jogador) throws RepositoryException {
-        String sql = "UPDATE Jogadores SET nome = ?, pontuacao = ? WHERE id = ?";
+        String sql = "UPDATE Jogador SET nome = ?, pontuacao = ? WHERE id = ?";
         try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, jogador.getNome());
@@ -55,7 +55,7 @@ public class BDRJogadorRepository implements JogadorRepository {
 
     @Override
     public void remover(Jogador jogador) throws RepositoryException {
-        String sql = "DELETE FROM Jogadores WHERE id = ?";
+        String sql = "DELETE FROM Jogador WHERE id = ?";
         try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, jogador.getId());
@@ -67,7 +67,7 @@ public class BDRJogadorRepository implements JogadorRepository {
 
     @Override
     public Jogador getPorId(long id) {
-        String sql = "SELECT * FROM Jogadores WHERE id = ?";
+        String sql = "SELECT * FROM Jogador WHERE id = ?";
         try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
@@ -85,7 +85,7 @@ public class BDRJogadorRepository implements JogadorRepository {
 
     @Override
     public Jogador getPorNome(String nome) {
-        String sql = "SELECT * FROM Jogadores WHERE nome = ?";
+        String sql = "SELECT * FROM Jogador WHERE nome = ?";
         try (Connection connection = DatabaseConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, nome);
