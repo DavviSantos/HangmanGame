@@ -25,9 +25,17 @@ public class MemoriaTemaRepository implements TemaRepository {
 
     @Override
     public synchronized void inserir(Tema tema) throws RepositoryException {
-        if (temaPool.containsKey(tema.getId())) {
+        
+        if ((temaPool.containsKey(tema.getId())) ){
             throw new RepositoryException("Tema já existe na pool.");
         }
+        for (Map.Entry<Long,Tema> temaDaPool : temaPool.entrySet()){
+            if(tema.getNome().equals(temaDaPool.getValue().getNome())){
+                throw new RepositoryException("Tema já existe na pool.");
+            }
+        }
+
+        
         temaPool.put(tema.getId(), tema);
     }
 
@@ -36,7 +44,7 @@ public class MemoriaTemaRepository implements TemaRepository {
         if (!temaPool.containsKey(tema.getId())) {
             throw new RepositoryException("Tema não encontrado para atualização.");
         }
-        temaPool.put(tema.getId(), tema); // Atualiza o tema existente
+        
     }
 
     @Override
