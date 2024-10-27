@@ -1,6 +1,8 @@
 package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
@@ -12,7 +14,9 @@ public class Palavra extends ObjetoDominioImpl{
     private Tema tema;
     private static LetraFactory letraFactory;
     private Letra encoberta;
+    private int tamanho;
     private Letra[] palavra;
+
     
     public static void setLetraFactory(LetraFactory factory){
         letraFactory = factory;
@@ -45,6 +49,7 @@ public class Palavra extends ObjetoDominioImpl{
         }
         this.tema = tema;
         this.encoberta = letraFactory.getLetraEncoberta();
+        this.tamanho = this.palavra.length;
     }
 
     public Letra[] getLetras(){
@@ -90,31 +95,34 @@ public class Palavra extends ObjetoDominioImpl{
     }
 
     public int[] tentar(char codigo){
+        int[] posicoesEncontradasNaLista = new int[this.getTamanho()];
         if(this.palavra==null){
-            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
+            return posicoesEncontradasNaLista;
         }
-    }
-    ArrayList<Integer> posicoesEncontradasNaLista = new ArrayList<Integer>();
-    for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
-        if(this.palavra[posicaoAtual].getCodigo()==codigo){
-            posicoesEncontradasNaLista.add(posicaoAtual);
+        
+        for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
+            if(this.palavra[posicaoAtual].getCodigo()==codigo){
+                posicoesEncontradasNaLista[posicaoAtual] = 1;
+            }else{
+                posicoesEncontradasNaLista[posicaoAtual] = 0;
+            }
         }
+        return posicoesEncontradasNaLista;
     }
+   
 
     public Tema getTema(){
         return tema;
     }
 
-    public boolean comparar(String){
+    public boolean comparar(String palavra){
         if(this.palavra==null){
             throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes."); 
         }
-        if(palavra==null){
+        if((palavra==null) || (this.getTamanho()!=palavra.length())){
             return false;
         }
-        if(this.getTamanho()!=palavra.length()){
-            return false;
-        }
+        
         for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
             if(this.palavra[posicaoAtual].getCodigo()!=palavra.charAt(posicaoAtual)){
                 return false;
@@ -126,11 +134,8 @@ public class Palavra extends ObjetoDominioImpl{
         if(this.palavra==null){
             throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
         }
-        String palavra = "";
-        for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
-            palavra+=this.palavra[posicaoAtual].getcodigo();
-        }
-        return palavra;
+        return this.tamanho;
+        
     }
 
 }

@@ -1,7 +1,5 @@
 package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 
-import javax.management.RuntimeErrorException;
-
 import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.factory.EntityFactory;
 
@@ -27,7 +25,7 @@ public class PalavraFactoryImpl extends EntityFactory implements PalavraFactory 
     }
 
     private PalavraRepository getPalavraRepository(){
-        return (PalavraRepository) this.getRepository;
+        return (PalavraRepository) this.getRepository();
 
     }
 
@@ -35,4 +33,11 @@ public class PalavraFactoryImpl extends EntityFactory implements PalavraFactory 
     public Palavra getPalavra(String palavra, Tema tema){
         return Palavra.criar(this.getPalavraRepository().getProximoId(), palavra, tema);
     }
+
+    @Override
+    protected long getProximoId() {
+        return this.getPalavraRepository().getProximoId();
+    }
+
+   
 }
