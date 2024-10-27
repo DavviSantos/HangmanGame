@@ -8,7 +8,7 @@ public class BonecoTextoFactory implements BonecoFactory {
     private static BonecoTextoFactory soleInstance;
 
     private BonecoTextoFactory() {
-        // Construtor privado para evitar instanciamento externo
+    
     }
 
     public static BonecoTextoFactory getSoleInstance() {
@@ -18,6 +18,7 @@ public class BonecoTextoFactory implements BonecoFactory {
         return soleInstance;
     }
 
+    // Implementação do método da interface BonecoFactory
     @Override
     public Boneco getBoneco() {
         return BonecoTexto.getSoleInstance();
