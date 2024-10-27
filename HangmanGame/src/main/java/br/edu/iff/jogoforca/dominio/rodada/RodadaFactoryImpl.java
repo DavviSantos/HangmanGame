@@ -15,15 +15,15 @@ public abstract class RodadaFactoryImpl extends EntityFactory implements RodadaF
 		this.palavraRepository = palavraRepository;
 	}
 
-	public RodadaRepository getRodadaRepository() {
+	protected RodadaRepository getRodadaRepository() {
 		return (RodadaRepository) this.getRepository();
 	}
 
-	public TemaRepository getTemaRepository() {
+	protected TemaRepository getTemaRepository() {
 		return this.temaRepository;
 	}
 
-	public PalavraRepository getPalavraRepository() {
+	protected PalavraRepository getPalavraRepository() {
 		return this.palavraRepository;
 	}
 }
