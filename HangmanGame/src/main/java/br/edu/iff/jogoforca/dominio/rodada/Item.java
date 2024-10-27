@@ -1,7 +1,6 @@
 package main.java.br.edu.iff.jogoforca.dominio.rodada;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
 import main.java.br.edu.iff.bancodepalavras.dominio.palavra.Palavra;
