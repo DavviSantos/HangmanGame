@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class LetraFactoryImpl implements LetraFactory {
 
     private final Map<Character, Letra> pool = new HashMap<>();
-    private final Letra encoberta;
+    private Letra encoberta;
 
     // Construtor protegido
     protected LetraFactoryImpl() {
