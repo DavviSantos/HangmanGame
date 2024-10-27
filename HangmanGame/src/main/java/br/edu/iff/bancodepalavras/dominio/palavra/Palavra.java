@@ -3,7 +3,6 @@ package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
 import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.LetraFactory;
@@ -19,12 +18,14 @@ public class Palavra extends ObjetoDominioImpl{
 
     
     public static void setLetraFactory(LetraFactory factory){
+
         letraFactory = factory;
     }
 
     public LetraFactory getLetraFactory(){
         return letraFactory;
     }
+
 
     public static Palavra criar (long id, String palavra, Tema tema){
         if(letraFactory==null){
@@ -42,7 +43,7 @@ public class Palavra extends ObjetoDominioImpl{
 
     private Palavra(long id, String palavra, Tema tema){
         super(id);
-        this.palavra = new Letra[palavra.length()];
+        this.palavra = newimport javax.management.RuntimeErrorException; Letra[palavra.length()];
 
         for(int letraAtual = 0; letraAtual < palavra.length(); letraAtual++){
             this.palavra[letraAtual] = letraFactory.getLetra(palavra.charAt(letraAtual));
@@ -110,12 +111,12 @@ public class Palavra extends ObjetoDominioImpl{
         return posicoesEncontradasNaLista;
     }
    
-
     public Tema getTema(){
         return tema;
     }
 
     public boolean comparar(String palavra){
+
         if(this.palavra==null){
             throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes."); 
         }
@@ -139,3 +140,17 @@ public class Palavra extends ObjetoDominioImpl{
     }
 
 }
+
+    @Override
+    public String toString() {
+        if(this.palavra==null) {
+			throw new RuntimeException("Deve inicializar a palavra primeiro");
+		}
+		String palavra = "";
+		for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++) {
+			palavra+=this.palavra[posicaoAtual].getCodigo();
+		}
+		return palavra;
+    }
+}
+

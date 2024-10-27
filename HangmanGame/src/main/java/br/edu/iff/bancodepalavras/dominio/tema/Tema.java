@@ -10,7 +10,7 @@ public class Tema extends ObjetoDominioImpl {
     // Define um construtor privado que recebe um id e um nome
     private Tema(long id, String nome) {
         super(id);
-        this.setNome(nome);
+        this.nome = nome;
     }
 
     // Define um método estático para reconstituir um objeto Tema a partir de um id e um nome

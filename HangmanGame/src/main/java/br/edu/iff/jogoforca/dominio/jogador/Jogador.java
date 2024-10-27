@@ -30,8 +30,9 @@ public class Jogador extends ObjetoDominioImpl {
         return pontuacao;
     }
 
+    //pontuação = soma dos pontos de todas asrodadas deste jogador.
     public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
+        this.pontuacao += pontuacao;
     }
 
     public String getNome() {
