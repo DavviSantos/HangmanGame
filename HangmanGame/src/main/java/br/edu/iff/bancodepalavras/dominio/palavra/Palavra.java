@@ -1,8 +1,6 @@
 package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+
 import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.LetraFactory;
@@ -43,7 +41,7 @@ public class Palavra extends ObjetoDominioImpl{
 
     private Palavra(long id, String palavra, Tema tema){
         super(id);
-        this.palavra = newimport javax.management.RuntimeErrorException; Letra[palavra.length()];
+        this.palavra = new Letra[palavra.length()];
 
         for(int letraAtual = 0; letraAtual < palavra.length(); letraAtual++){
             this.palavra[letraAtual] = letraFactory.getLetra(palavra.charAt(letraAtual));
@@ -139,7 +137,7 @@ public class Palavra extends ObjetoDominioImpl{
         
     }
 
-}
+
 
     @Override
     public String toString() {
