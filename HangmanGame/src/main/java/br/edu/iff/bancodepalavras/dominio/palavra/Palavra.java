@@ -1,134 +1,145 @@
 package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 
 import java.util.ArrayList;
-
+import java.util.List;
+import java.util.Vector;
+import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.LetraFactory;
-import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.dominio.ObjetoDominioImpl;
 
-//Classe do tipo Entity
-public class Palavra extends ObjetoDominioImpl {
+public class Palavra extends ObjetoDominioImpl{
 
-    private LetraFactory letraFactory;
-    private Letra encoberta;
-    private Letra[] palavra;
-    private int tamanhoDaPalavra;
     private Tema tema;
+    private static LetraFactory letraFactory;
+    private Letra encoberta;
+    private int tamanho;
+    private Letra[] palavra;
+
     
-    
-    public void setLetraFactory(LetraFactory factory ){
+    public static void setLetraFactory(LetraFactory factory){
+
         letraFactory = factory;
     }
 
     public LetraFactory getLetraFactory(){
         return letraFactory;
     }
-    
-    public Palavra criar(long id, String palavra, Tema tema){
-        if(letraFactory==null) {
-			throw new RuntimeException("Deve inicializar o letraFactory primeiro");
-		}
-		return new Palavra(id, palavra, tema);
-    }
-    
-    public Palavra reconstruir(long id, String palavra, Tema tema){
-        if(letraFactory==null) {
-			throw new RuntimeException("Deve inicializar o letraFactory primeiro");
-		}
-		return new Palavra(id, palavra, tema);
+
+
+    public static Palavra criar (long id, String palavra, Tema tema){
+        if(letraFactory==null){
+            throw new RuntimeException("letraFactory ainda não foi inicializado, inicialize antes");
+        }
+        return new Palavra(id, palavra, tema);
     }
 
-    private Palavra (long id, String palavra, Tema tema){
+    public static Palavra reconstruir(long id, String palavra,Tema tema){
+        if(letraFactory==null){
+            throw new RuntimeException("letraFactory ainda não foi inicializado, inicialize antes");
+        }
+        return new Palavra(id, palavra, tema);
+    }
+
+    private Palavra(long id, String palavra, Tema tema){
         super(id);
-		this.tema = tema;
-		this.tamanhoDaPalavra = palavra.length();
-		this.palavra = new Letra[tamanhoDaPalavra];
-		for(int letraAtual = 0; letraAtual < tamanhoDaPalavra; letraAtual++) {
-			this.palavra[letraAtual] = letraFactory.getLetra(palavra.charAt(letraAtual));
-		}
+        this.palavra = newimport javax.management.RuntimeErrorException; Letra[palavra.length()];
+
+        for(int letraAtual = 0; letraAtual < palavra.length(); letraAtual++){
+            this.palavra[letraAtual] = letraFactory.getLetra(palavra.charAt(letraAtual));
+        }
+        this.tema = tema;
+        this.encoberta = letraFactory.getLetraEncoberta();
+        this.tamanho = this.palavra.length;
     }
 
     public Letra[] getLetras(){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		return this.palavra.clone();
-	}
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
+        }
+        return this.palavra.clone();
+    }
 
     public Letra getLetra(int posicao){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		if(posicao<0||posicao>getTamanho()) {
-			throw new RuntimeException("Posição inválida");
-		}
-		return this.palavra[posicao];
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
+        }
+        if(posicao<0 || posicao>getTamanho()){
+            throw new RuntimeException("Essa posição é inválida!");
+        }
+        return this.palavra[posicao];
     }
 
     public void exibir(Object contexto){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		for(int posicaoAtual = 0; posicaoAtual < this.getTamanho(); posicaoAtual++) {
-			this.palavra[posicaoAtual].exibir(contexto);
-		}
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes."); 
+        }
+
+        for(int posicaoAtual = 0; posicaoAtual<getTamanho(); posicaoAtual++){
+            this.palavra[posicaoAtual].exibir(contexto);
+        }
     }
 
     public void exibir(Object contexto, boolean[] posicoes){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		for(int posicaoAtual = 0; posicaoAtual < this.getTamanho(); posicaoAtual++) {
-			if(posicoes[posicaoAtual]) {				
-				this.palavra[posicaoAtual].exibir(contexto);
-			}else {
-				this.encoberta.exibir(contexto);
-			}
-		}
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
+        }
+
+        for(int posicaoAtual = 0; posicaoAtual < this.getTamanho(); posicaoAtual++){
+            if(posicoes[posicaoAtual]){
+                this.palavra[posicaoAtual].exibir(contexto);
+            }
+            else{
+                this.encoberta.exibir(contexto);
+            }
+        }
     }
 
     public int[] tentar(char codigo){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		ArrayList<Integer> posicoesEncontradasLista = new ArrayList<Integer>();
-		for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++) {
-			if(this.palavra[posicaoAtual].getCodigo()==codigo) {
-				posicoesEncontradasLista.add(posicaoAtual);
-			}
-		}
-        return posicoesEncontradasLista.stream().mapToInt(Integer::intValue).toArray();
+        int[] posicoesEncontradasNaLista = new int[this.getTamanho()];
+        if(this.palavra==null){
+            return posicoesEncontradasNaLista;
+        }
+        
+        for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
+            if(this.palavra[posicaoAtual].getCodigo()==codigo){
+                posicoesEncontradasNaLista[posicaoAtual] = 1;
+            }else{
+                posicoesEncontradasNaLista[posicaoAtual] = 0;
+            }
+        }
+        return posicoesEncontradasNaLista;
     }
-
+   
     public Tema getTema(){
         return tema;
     }
 
     public boolean comparar(String palavra){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		if(palavra==null) {
-			return false;
-		}
-		if(this.getTamanho()!=tamanhoDaPalavra) {
-			return false;
-		}
-		for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++) {
-			if(this.palavra[posicaoAtual].getCodigo()!=palavra.charAt(posicaoAtual)) {
-				return false;
-			}
-		}
-		return true;
+
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes."); 
+        }
+        if((palavra==null) || (this.getTamanho()!=palavra.length())){
+            return false;
+        }
+        
+        for(int posicaoAtual = 0; posicaoAtual<this.getTamanho(); posicaoAtual++){
+            if(this.palavra[posicaoAtual].getCodigo()!=palavra.charAt(posicaoAtual)){
+                return false;
+            }
+        }
+        return true;
+    }
+    public int getTamanho(){
+        if(this.palavra==null){
+            throw new RuntimeException("palavra ainda não foi inicializada, inicialize antes.");
+        }
+        return this.tamanho;
+        
     }
 
-    public int getTamanho(){
-        if(this.palavra==null) {
-			throw new RuntimeException("Deve inicializar a palavra primeiro");
-		}
-		return this.palavra.length;
-    }
+}
 
     @Override
     public String toString() {
@@ -142,3 +153,4 @@ public class Palavra extends ObjetoDominioImpl {
 		return palavra;
     }
 }
+
