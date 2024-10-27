@@ -30,7 +30,7 @@ public class Rodada extends ObjetoDominioImpl{
     }
 
     public static void setMaxPalavras(int max){
-        Rodada.maxPalavras = maxPalavras;
+        Rodada.maxPalavras = max;
     }
 
     public static int getMaxErros(){
@@ -38,7 +38,7 @@ public class Rodada extends ObjetoDominioImpl{
     }
 
     public static void setMaxErros(int max){
-        Rodada.maxErros = maxErros;
+        Rodada.maxErros = max;
     }
 
     public static int getPontosQuandoDescobreTodasAsPalavras(){
@@ -46,7 +46,7 @@ public class Rodada extends ObjetoDominioImpl{
     }
 
     public static void setPontosQuandoDescobreTodasAsPalavras(int pontos){
-        Rodada.pontosQuandoDescobreTodasAsPalavras = pontosQuandoDescobreTodasAsPalavras;
+        Rodada.pontosQuandoDescobreTodasAsPalavras = pontos;
     }
 
     public static int getPontosPorLetraEncoberta(){
@@ -54,7 +54,7 @@ public class Rodada extends ObjetoDominioImpl{
     }
 
     public static void setPontosPorLetraEncoberta(int pontos){
-        Rodada.pontosPorLetraEncoberta = pontosPorLetraEncoberta;
+        Rodada.pontosPorLetraEncoberta = pontos;
     }
 
     public static void setBonecoFactory(BonecoFactory bonecoFactory){
@@ -149,8 +149,9 @@ public class Rodada extends ObjetoDominioImpl{
 				encontrou = true;
 			}
 		}
-		if(!encontrou){				
-			this.erradas.add(this.itens[0].getPalavra().getLetraFactory().getLetra(codigo));
+		if(!encontrou){
+			//Não entendi muito bem porque tinha que usar o LetraFactory, mas para mim não fazia sentido nesse contexto
+			this.erradas.add(this.itens[0].getPalavra().getLetra(codigo));
 		}
 		if(this.encerrou()) {			
 			this.jogador.setPontuacao(this.jogador.getPontuacao()+this.calcularPontos());
