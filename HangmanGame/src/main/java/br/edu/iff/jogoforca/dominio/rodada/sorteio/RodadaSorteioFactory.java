@@ -13,6 +13,7 @@ import main.java.br.edu.iff.jogoforca.dominio.rodada.RodadaFactoryImpl;
 import main.java.br.edu.iff.jogoforca.dominio.rodada.RodadaRepository;
 
 public class RodadaSorteioFactory extends RodadaFactoryImpl {
+    
     private static RodadaSorteioFactory soleInstance;
 	
 	public static void createSoleInstance(RodadaRepository repository, TemaRepository temaRepository, PalavraRepository palavraRepository) {
@@ -53,4 +54,11 @@ public class RodadaSorteioFactory extends RodadaFactoryImpl {
 
         return Rodada.criar(getRodadaRepository().getProximoId(), palavrasEscolhidas, jogador);
 	}
+
+    @Override
+    protected long getProximoId() {
+        return super.getRodadaRepository().getProximoId();
+    }
+
+    
 }
