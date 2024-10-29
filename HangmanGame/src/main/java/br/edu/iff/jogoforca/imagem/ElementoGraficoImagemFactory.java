@@ -11,6 +11,15 @@ public class ElementoGraficoImagemFactory implements ElementoGraficoFactory {
     private final LetraImagemFactory letraImagemFactory;
     private final BonecoImagemFactory bonecoImagemFactory;
 
+    private static ElementoGraficoImagemFactory soleInstance;
+	
+	public static ElementoGraficoImagemFactory getSoleInstance() {
+		if(soleInstance==null) {
+			soleInstance = new ElementoGraficoImagemFactory();
+		}
+		return soleInstance;
+	}    
+
     // Construtor
     public ElementoGraficoImagemFactory() {
         this.letraImagemFactory = LetraImagemFactory.getSoleInstance(); // Acessa o singleton de LetraImagemFactory

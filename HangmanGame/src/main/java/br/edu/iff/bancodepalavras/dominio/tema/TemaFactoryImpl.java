@@ -11,7 +11,7 @@ public class TemaFactoryImpl extends EntityFactory implements TemaFactory {
         }
     }
 
-    public TemaFactoryImpl getSoleInstance(){
+    public static TemaFactoryImpl getSoleInstance(){
         if (soleInstance.equals(null)){
             throw new TemaInstanceException("Tema ainda não instanciado");
         }

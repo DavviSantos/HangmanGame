@@ -10,6 +10,15 @@ public class ElementoGraficoTextoFactory implements ElementoGraficoFactory {
     private final LetraTextoFactory letraTextoFactory;
     private final BonecoTextoFactory bonecoTextoFactory;
 
+    private static ElementoGraficoTextoFactory soleInstance;
+	
+	public static ElementoGraficoTextoFactory getSoleInstance() {
+		if(soleInstance==null) {
+			soleInstance = new ElementoGraficoTextoFactory();
+		}
+		return soleInstance;
+	}
+    
     // Construtor
     public ElementoGraficoTextoFactory() {
         this.letraTextoFactory = LetraTextoFactory.getSoleInstance(); // Obter a instância única da fábrica de letras
