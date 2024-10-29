@@ -25,6 +25,7 @@ public class RodadaAppService {
         }
     }
 
+    // Appservice
     public static RodadaAppService getSoleInstace(){
         if (soleInstance == null){
             throw new RuntimeException("createSoleInstance precisa ser chamada");
