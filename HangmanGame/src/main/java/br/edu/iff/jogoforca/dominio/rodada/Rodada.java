@@ -150,8 +150,6 @@ public class Rodada extends ObjetoDominioImpl {
 		return this.itens.length;
 	}
 
-	// usar LetraFactory, usando getLetraFactory() da classe Palavra, para
-	// instanciar as Letras erradas
 	public void tentar(char codigo) {
 		if (this.encerrou()) {
 			throw new RuntimeException("Não pode tentar depois que o jogo encerrou");
@@ -161,14 +159,13 @@ public class Rodada extends ObjetoDominioImpl {
 		}
 		boolean encontrou = false;
 		for (Item item : this.itens) {
-			if (item.tentar(codigo) && !encontrou) {
+			if (item.tentar(codigo)) {
 				encontrou = true;
 			}
 		}
 		if (!encontrou) {
-			// Não entendi muito bem porque tinha que usar o LetraFactory, mas para mim não
-			// fazia sentido nesse contexto
-			this.erradas.add(this.itens[0].getPalavra().getLetra(codigo));
+			// Usar o LetraFactory para criar a letra errada
+			this.erradas.add(Palavra.getLetraFactory().getLetra(codigo));
 		}
 		if (this.encerrou()) {
 			this.jogador.setPontuacao(this.jogador.getPontuacao() + this.calcularPontos());

@@ -84,8 +84,7 @@ public class Item extends ObjetoDominioImpl {
         for (int posicao : posicoes) {
             posicoesDescobertas[posicao] = true;
         }
-
-        return posicoes.length > 0 ? true : false;
+        return posicoes.length > 0;
     }
 
     void arriscar(String palavra) {
