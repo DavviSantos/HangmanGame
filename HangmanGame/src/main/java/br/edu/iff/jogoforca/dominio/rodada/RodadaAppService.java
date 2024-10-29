@@ -25,6 +25,13 @@ public class RodadaAppService {
         }
     }
 
+    public static RodadaAppService getSoleInstace(){
+        if (soleInstance == null){
+            throw new RuntimeException("createSoleInstance precisa ser chamada");
+        }
+        return soleInstance;
+    }
+
     // Checar se o jogador existe
     public Rodada novaRodada(long idJogador) {
         if (this.jogadorRepository.getPorId(idJogador).equals(null)) {
