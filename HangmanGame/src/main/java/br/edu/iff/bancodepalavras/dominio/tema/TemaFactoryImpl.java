@@ -3,16 +3,17 @@ package main.java.br.edu.iff.bancodepalavras.dominio.tema;
 import main.java.br.edu.iff.factory.EntityFactory;
 
 public class TemaFactoryImpl extends EntityFactory implements TemaFactory {
+
     private static TemaFactoryImpl soleInstance;
 
     public static void createSoleInstance(TemaRepository repository){
-        if (soleInstance.equals(null)){
+        if (soleInstance==null){
             soleInstance = new TemaFactoryImpl(repository);
         }
     }
 
     public static TemaFactoryImpl getSoleInstance(){
-        if (soleInstance.equals(null)){
+        if (soleInstance==null){
             throw new TemaInstanceException("Tema ainda não instanciado");
         }
         return soleInstance;
@@ -20,7 +21,7 @@ public class TemaFactoryImpl extends EntityFactory implements TemaFactory {
 
     @Override
     public Tema getTema(String nome) {
-        if (soleInstance.equals(null)){
+        if (soleInstance==null){
             //Mudar para um erro mais específico
             throw new TemaInstanceException("Instancia Tema ainda não criada");
         }
