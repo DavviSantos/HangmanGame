@@ -1,8 +1,10 @@
 package main.java.br.edu.iff.bancodepalavras.dominio.palavra;
 
-import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
+import java.util.ArrayList;
+import java.util.List;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.Letra;
 import main.java.br.edu.iff.bancodepalavras.dominio.letra.LetraFactory;
+import main.java.br.edu.iff.bancodepalavras.dominio.tema.Tema;
 import main.java.br.edu.iff.dominio.ObjetoDominioImpl;
 
 public class Palavra extends ObjetoDominioImpl {
@@ -17,12 +19,12 @@ public class Palavra extends ObjetoDominioImpl {
         super(id); // Chamada ao construtor da superclasse
         this.tema = tema;
         this.letras = new Letra[palavra.length()];
-        
+
         // Criação das letras usando a letraFactory
         for (int i = 0; i < palavra.length(); i++) {
             this.letras[i] = letraFactory.getLetra(palavra.charAt(i));
         }
-        
+
         this.encoberta = letraFactory.getLetraEncoberta();
     }
 
@@ -70,19 +72,13 @@ public class Palavra extends ObjetoDominioImpl {
     }
 
     public int[] tentar(char codigo) {
-        int[] posicoes = new int[getTamanho()];
-        int count = 0;
-
+        List<Integer> posicoes = new ArrayList<>();
         for (int i = 0; i < getTamanho(); i++) {
-            if (letras[i].getCodigo() == codigo) {
-                posicoes[count++] = i;
+            if (Character.toLowerCase(letras[i].getCodigo()) == Character.toLowerCase(codigo)) {
+                posicoes.add(i);
             }
         }
-
-        // Retorna um vetor com o tamanho correto
-        int[] resultado = new int[count];
-        System.arraycopy(posicoes, 0, resultado, 0, count);
-        return resultado;
+        return posicoes.stream().mapToInt(Integer::intValue).toArray();
     }
 
     public void exibir(Object contexto) {
