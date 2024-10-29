@@ -5,72 +5,124 @@ import main.java.br.edu.iff.bancodepalavras.dominio.tema.TemaFactory;
 import main.java.br.edu.iff.bancodepalavras.dominio.tema.TemaRepository;
 import main.java.br.edu.iff.jogoforca.Aplicacao;
 import main.java.br.edu.iff.jogoforca.dominio.jogador.Jogador;
+import main.java.br.edu.iff.jogoforca.dominio.jogador.JogadorRepository;
 import main.java.br.edu.iff.jogoforca.dominio.rodada.Rodada;
 import main.java.br.edu.iff.jogoforca.dominio.rodada.RodadaAppService;
+import main.java.br.edu.iff.repository.RepositoryException;
 
 public class App {
     public static void main(String[] args) {
         try {
-            // Inicializar a aplicação
+            // Inicialização do jogo
             Aplicacao app = Aplicacao.getSoleInstance();
 
-            // Inicializar banco de palavras
+            // Inicializar o banco de palavras
             inicializarBancoDePalavras(app);
 
             Scanner scanner = new Scanner(System.in);
 
             System.out.println("Bem-vindo ao Jogo da Forca!");
             System.out.print("Digite seu nome: ");
-            String nomeJogador = scanner.nextLine();
+            String nomeJogador = scanner.nextLine().trim();
 
-            // Criar ou obter jogador
-            Jogador jogador = app.getJogadorFactory().getJogador(nomeJogador);
+            // Criar ou recuperar jogador
+            Jogador jogador = criarOuRecuperarJogador(app, nomeJogador);
 
-            // Iniciar uma nova rodada
-            RodadaAppService rodadaAppService = RodadaAppService.getSoleInstance();
-            Rodada rodada = rodadaAppService.novaRodada(jogador);
+            boolean jogarNovamente = true;
+            while (jogarNovamente) {
+                // Iniciar nova rodada
+                Rodada rodada = RodadaAppService.getSoleInstance().novaRodada(jogador);
 
-            while (!rodada.encerrou()) {
-                System.out.println("\nTema: " + rodada.getTema().getNome());
-                System.out.print("Palavra(s): ");
-                rodada.exibirItens(System.out);
-                System.out.print("\nLetras erradas: ");
-                rodada.exibirLetrasErradas(System.out);
-                System.out.println("\nTentativas restantes: " + rodada.getQtdeTentativasRestantes());
+                // Loop principal do jogo
+                while (!rodada.encerrou()) {
+                    // Exibir estado atual do jogo
+                    exibirEstadoJogo(rodada);
 
-                System.out.print("Digite uma letra ou 'arriscar' para tentar a palavra completa: ");
-                String entrada = scanner.nextLine().toUpperCase();
+                    // Processar tentativa do jogador
+                    processarTentativa(scanner, rodada);
+                }
 
-                if (entrada.equals("ARRISCAR")) {
-                    System.out.print("Digite a(s) palavra(s): ");
-                    String[] palavras = scanner.nextLine().toUpperCase().split(" ");
-                    rodada.arriscar(palavras);
-                } else if (entrada.length() == 1) {
-                    rodada.tentar(entrada.charAt(0));
-                } else {
-                    System.out.println("Entrada inválida!");
+                // Exibir resultado final da rodada
+                exibirResultadoRodada(rodada);
+
+                // Perguntar se quer jogar novamente
+                System.out.print("\nDeseja jogar novamente? (S/N): ");
+                String resposta = scanner.nextLine().trim().toUpperCase();
+                jogarNovamente = resposta.equals("S");
+
+                if (jogarNovamente) {
+                    System.out.println("\nPontuação atual: " + jogador.getPontuacao() + " pontos");
+                    System.out.println("Iniciando nova partida...\n");
                 }
             }
 
-            // Fim do jogo
-            if (rodada.descobriu()) {
-                System.out.println("Parabéns! Você descobriu a(s) palavra(s)!");
-            } else {
-                System.out.println("Que pena! Você não descobriu a(s) palavra(s).");
-                System.out.print("A(s) palavra(s) era(m): ");
-                rodada.exibirPalavras(System.out);
-            }
-
-            System.out.println("Pontuação: " + rodada.calcularPontos());
-
-            // Salvar a rodada
-            rodadaAppService.salvarRodada(rodada);
+            // Exibir pontuação final
+            System.out.println("\nJogo encerrado!");
+            System.out.println("Pontuação final de " + jogador.getNome() + ": " + jogador.getPontuacao() + " pontos");
 
             scanner.close();
 
         } catch (Exception e) {
             System.err.println("Erro durante a execução do jogo: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    private static Jogador criarOuRecuperarJogador(Aplicacao app, String nome) {
+        JogadorRepository repository = app.getRepositoryFactory().getJogadorRepository();
+        Jogador jogador = repository.getPorNome(nome);
+
+        if (jogador == null) {
+            // Criar novo jogador
+            jogador = app.getJogadorFactory().getJogador(nome);
+            try {
+                repository.inserir(jogador);
+            } catch (RepositoryException e) {
+                System.err.println("Erro ao salvar jogador: " + e.getMessage());
+            }
+        }
+
+        return jogador;
+    }
+
+    private static void exibirEstadoJogo(Rodada rodada) {
+        System.out.println("\nTema: " + rodada.getTema().getNome());
+        System.out.print("Palavra(s): ");
+        rodada.exibirItens(null);
+        System.out.print("\nLetras erradas: ");
+        rodada.exibirLetrasErradas(null);
+        System.out.println("\nTentativas restantes: " + rodada.getQtdeTentativasRestantes());
+    }
+
+    private static void processarTentativa(Scanner scanner, Rodada rodada) {
+        System.out.print("Digite uma letra ou 'arriscar' para tentar a palavra completa: ");
+        String entrada = scanner.nextLine().trim().toUpperCase();
+
+        if (entrada.equals("ARRISCAR")) {
+            System.out.println("Digite a(s) palavra(s):");
+            String[] palavras = new String[rodada.getNumPalavras()];
+            for (int i = 0; i < rodada.getNumPalavras(); i++) {
+                System.out.print("Palavra " + (i + 1) + ": ");
+                palavras[i] = scanner.nextLine().trim().toUpperCase();
+            }
+            rodada.arriscar(palavras);
+        } else if (entrada.length() == 1) {
+            rodada.tentar(entrada.charAt(0));
+        } else {
+            System.out.println("Entrada inválida! Digite uma única letra ou 'arriscar'.");
+        }
+    }
+
+    private static void exibirResultadoRodada(Rodada rodada) {
+        System.out.println("\nFim da rodada!");
+        System.out.println("Palavra(s) correta(s):");
+        rodada.exibirPalavras(null);
+
+        if (rodada.descobriu()) {
+            System.out.println("Parabéns! Você venceu!");
+            System.out.println("Pontos ganhos nesta rodada: " + rodada.calcularPontos());
+        } else {
+            System.out.println("Que pena! Você não descobriu a(s) palavra(s).");
         }
     }
 

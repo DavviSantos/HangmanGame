@@ -6,13 +6,13 @@ public class Jogador extends ObjetoDominioImpl {
     private String nome;
     private int pontuacao;
 
-    private Jogador (long id, String nome) {
+    private Jogador(long id, String nome) {
         super(id);
         this.nome = nome;
         this.pontuacao = 0;
     }
 
-    private Jogador (long id, String nome, int pontuacao) {
+    private Jogador(long id, String nome, int pontuacao) {
         super(id);
         this.nome = nome;
         this.pontuacao = pontuacao;
@@ -30,9 +30,8 @@ public class Jogador extends ObjetoDominioImpl {
         return pontuacao;
     }
 
-    //pontuação = soma dos pontos de todas asrodadas deste jogador.
     public void setPontuacao(int pontuacao) {
-        this.pontuacao += pontuacao;
+        this.pontuacao = pontuacao;
     }
 
     public String getNome() {
@@ -42,6 +41,5 @@ public class Jogador extends ObjetoDominioImpl {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
 
 }
